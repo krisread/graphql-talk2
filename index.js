@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
-const { books, authors } = require('./lib/data');
+const { authors } = require('./lib/data');
 
 // The GraphQL schema in string form
 const typeDefs = `
@@ -22,9 +22,11 @@ const typeDefs = `
 const resolvers = {
 
   Query: {
+
     authors: () => {
       return Object.values(authors);
     },
+
     author: (root, { id }) => {
       return authors[id];
     }
@@ -45,6 +47,6 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 // Start the server
-app.listen(3000, () => {
-  console.log('Go to http://localhost:3000/graphiql to run queries!');
+app.listen(3001, () => {
+  console.log('Go to http://localhost:3001/graphiql to run queries!');
 });
