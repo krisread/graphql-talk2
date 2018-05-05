@@ -8,12 +8,8 @@ const { books, authors } = require('./lib/data');
 const typeDefs = `
 
   type Query { 
-    books: [Book]
-  }
-  
-  type Book {
-    title: String!
-    author: Author!
+    authors: [Author]
+    author(id: Int): Author
   }
   
   type Author {
@@ -26,16 +22,13 @@ const typeDefs = `
 const resolvers = {
 
   Query: {
-    books: () => {
-      return Object.values(books);
+    authors: () => {
+      return Object.values(authors);
+    },
+    author: (root, { id }) => {
+      return authors[id];
     }
   },
-
-  Book: {
-    author: (book) => {
-      return authors[book.author];
-    }
-  }
 
 };
 
